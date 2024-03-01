@@ -7,7 +7,7 @@ namespace Acquia\Cli\Tests\Commands\CodeStudio;
 use Acquia\Cli\Command\CodeStudio\CodeStudioWizardCommand;
 use Acquia\Cli\Command\CommandBase;
 use Acquia\Cli\Exception\AcquiaCliException;
-use Acquia\Cli\Output\Checklist;
+// use Acquia\Cli\Output\Checklist;
 use Acquia\Cli\Tests\Commands\Ide\IdeRequiredTestTrait;
 use Acquia\Cli\Tests\Commands\WizardTestBase;
 use Acquia\Cli\Tests\TestBase;
