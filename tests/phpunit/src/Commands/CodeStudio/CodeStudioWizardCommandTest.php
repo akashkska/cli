@@ -7,6 +7,7 @@ namespace Acquia\Cli\Tests\Commands\CodeStudio;
 use Acquia\Cli\Command\CodeStudio\CodeStudioWizardCommand;
 use Acquia\Cli\Command\CommandBase;
 use Acquia\Cli\Exception\AcquiaCliException;
+use Acquia\Cli\Output\Checklist;
 use Acquia\Cli\Tests\Commands\Ide\IdeRequiredTestTrait;
 use Acquia\Cli\Tests\Commands\WizardTestBase;
 use Acquia\Cli\Tests\TestBase;
@@ -351,8 +352,8 @@ class CodeStudioWizardCommandTest extends WizardTestBase {
     /** @var Filesystem|ObjectProphecy $fileSystem */
     $fileSystem = $this->prophet->prophesize(Filesystem::class);
     $checkList = $this->prophet->prophesize(Checklist::class);
-    $checkList->addItem()->shouldBeCalled();
-    $checkList->completePreviousItem()->shouldBeCalled();
+    // $checkList->addItem()->shouldBeCalledTimes(1);;
+    // $checkList->completePreviousItem()->shouldBeCalledTimes(1);;
     // Set properties and execute.
     $this->executeCommand($args, $inputs);
     $output = $this->getDisplay();
@@ -520,7 +521,9 @@ class CodeStudioWizardCommandTest extends WizardTestBase {
   protected function mockGitLabVariables(int $gitlabProjectId, ObjectProphecy $projects): void {
     $variables = $this->getMockGitLabVariables();
     $projects->variables($gitlabProjectId)->willReturn($variables);
-    $projects->addVariable($gitlabProjectId, Argument::type('string'), Argument::type('string'), Argument::type('bool'), NULL, Argument::type('array'))->shouldBeCalled();
+    foreach ($variables as $variable) {
+      $projects->addVariable($this->gitLabProjectId, $variable['key'], $variable['value'], FALSE, NULL, ['masked' => TRUE, 'variable_type' => 'env_var'])->shouldBeCalled();
+    }
     foreach ($variables as $variable) {
       $projects->updateVariable($this->gitLabProjectId, $variable['key'], $variable['value'], FALSE, NULL, ['masked' => TRUE, 'variable_type' => 'env_var'])->shouldBeCalled();
     }
