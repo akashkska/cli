@@ -351,7 +351,7 @@ class CodeStudioWizardCommandTest extends WizardTestBase {
 
     /** @var Filesystem|ObjectProphecy $fileSystem */
     $fileSystem = $this->prophet->prophesize(Filesystem::class);
-    $checkList = $this->prophet->prophesize(Checklist::class);
+    // $checkList = $this->prophet->prophesize(Checklist::class);
     // $checkList->addItem()->shouldBeCalledTimes(1);;
     // $checkList->completePreviousItem()->shouldBeCalledTimes(1);;
     // Set properties and execute.
