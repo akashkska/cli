@@ -638,6 +638,11 @@ abstract class CommandTestBase extends TestBase {
     return $projects;
   }
 
+  protected function mockCurlCommand(string $projectAccessToken, string $hostPath, int $projectId, string $ciPath): string {
+    $curlCommandString = 'curl -s -N -k -L --request PUT --header "PRIVATE-TOKEN: ' . $projectAccessToken . '" --url ' . $hostPath . '/api/v4/projects/' . $projectId . ' --data "ci_config_path=' . $ciPath . '"';
+    return $curlCommandString;
+  }
+
   /**
    * @return array<mixed>
    */

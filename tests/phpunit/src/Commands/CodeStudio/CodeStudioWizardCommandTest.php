@@ -30,6 +30,7 @@ class CodeStudioWizardCommandTest extends WizardTestBase {
 
   private string $gitLabHost = 'gitlabhost';
   private string $gitLabToken = 'gitlabtoken';
+  private string $ciPath = 'ciPath';
 
   private int $gitLabProjectId = 33;
   private int $gitLabTokenId = 118;
@@ -359,6 +360,11 @@ class CodeStudioWizardCommandTest extends WizardTestBase {
     }
 
     // Assertions.
+    // $curlCommand = $this->prophet->prophesize(Client::class);
+    // $curlCommand->getCurlCommand($this->gitLabToken, $this->gitLabHost, $this->gitLabProjectId, $this->ciPath)->willReturn($curlcommand)->shouldBeCalled();
+    $curlcommand  = $this->mockCurlCommand($this->gitLabToken, $this->gitLabHost, $this->gitLabProjectId, $this->ciPath);
+    $curlString = $this->getCurlString();
+    self::assertStringContainsString($curlString, $curlcommand);
     $this->assertEquals(0, $this->getStatusCode());
   }
 
