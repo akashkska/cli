@@ -360,11 +360,9 @@ class CodeStudioWizardCommandTest extends WizardTestBase {
     }
 
     // Assertions.
-    // $curlCommand = $this->prophet->prophesize(Client::class);
-    // $curlCommand->getCurlCommand($this->gitLabToken, $this->gitLabHost, $this->gitLabProjectId, $this->ciPath)->willReturn($curlcommand)->shouldBeCalled();
-    $curlcommand  = $this->mockCurlCommand($this->gitLabToken, $this->gitLabHost, $this->gitLabProjectId, $this->ciPath);
+    $curlCommand = $this->command->getCurlCommand($this->gitLabToken, $this->gitLabHost, $this->gitLabProjectId, $this->ciPath);
     $curlString = $this->getCurlString();
-    self::assertStringContainsString($curlString, $curlcommand);
+    self::assertStringContainsString($curlString, $curlCommand);
     $this->assertEquals(0, $this->getStatusCode());
   }
 

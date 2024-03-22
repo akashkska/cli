@@ -182,7 +182,7 @@ final class CodeStudioWizardCommand extends WizardCommandBase {
     return $array;
   }
 
-  private function getCurlCommand(string $projectAccessToken, string $hostPath, int $projectId, string $ciPath): string {
+  public function getCurlCommand(string $projectAccessToken, string $hostPath, int $projectId, string $ciPath): string {
     $curlCommandString = 'curl -s -N -k -L --request PUT --header "PRIVATE-TOKEN: ' . $projectAccessToken . '" --url ' . $hostPath . '/api/v4/projects/' . $projectId . ' --data "ci_config_path=' . $ciPath . '"';
     return $curlCommandString;
   }
