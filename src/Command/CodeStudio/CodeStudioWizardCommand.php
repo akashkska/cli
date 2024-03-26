@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace Acquia\Cli\Command\CodeStudio;
 
 use Acquia\Cli\Command\WizardCommandBase;
+use Acquia\Cli\Exception\AcquiaCliException;
 use Acquia\Cli\Output\Checklist;
 use AcquiaCloudApi\Endpoints\Account;
 use DateTime;
@@ -118,13 +119,15 @@ final class CodeStudioWizardCommand extends WizardCommandBase {
     $ciPath = 'gitlab-ci/Auto-DevOps.acquia.gitlab-ci.yml@acquia/node-template';
     $hostPath = $this->getGitLabHost();
     $curlCommand = $this->getCurlCommand($projectAccessToken, $hostPath, $projectId, $ciPath);
-    // $curlCommand = 'curl -s -N -k -L --request PUT --header "PRIVATE-TOKEN: ' . $projectAccessToken . '" --url ' . $hostPath . '/api/v4/projects/' . $projectId . ' --data "ci_config_path=' . $ciPath . '"';
     switch ($projectSelected) {
       case "Drupal_project":
         $this->setGitLabCiCdVariablesForPhpProject($project, $appUuid, $cloudKey, $cloudSecret, $projectAccessTokenName, $projectAccessToken, $phpVersion);
         break;
       case "Node_project":
-        shell_exec($curlCommand);
+        $shellOutput = $this->localMachineHelper->executeFromCmd($curlCommand);
+        if (!$shellOutput->isSuccessful()) {
+          throw new AcquiaCliException('Unable to execute curl command. {error_message}', ['error_message' => $shellOutput->getErrorOutput()]);
+        }
         $this->setGitLabCiCdVariablesForNodeProject($project, $appUuid, $cloudKey, $cloudSecret, $projectAccessTokenName, $projectAccessToken, $nodeVersion);
         break;
     }
